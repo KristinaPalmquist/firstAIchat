@@ -14,9 +14,16 @@ def home(request):
         try:
             # Configure Gemini API
             api_key = os.getenv('GEMINI_API_KEY')
+            
+            # Temporary fallback for Azure deployment issues
             if not api_key:
-                answer = ("Sorry, the AI is not at home. "
-                          "Please come back later.")
+                # Try direct assignment as fallback
+                api_key = 'AIzaSyCICm-GlUy4SZOgYas-gj4ISDJuJtg3jfM'
+                print("WARNING: Using fallback API key - fix Azure env vars")
+            
+            if not api_key:
+                answer = ("Sorry, the AI service is not configured yet. "
+                          "Please set GEMINI_API_KEY environment variable.")
             else:
                 genai.configure(api_key=api_key)
                 
