@@ -34,8 +34,9 @@ if not SECRET_KEY:
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'first-chat-8lit.onrender.com',
-    '.onrender.com',
+    'my-first-ai-chat-fjgna8f6dyh2gjc2.westeurope-01.azurewebsites.net',
+    'my-first-ai-chat.azurewebsites.net',
+    '.azurewebsites.net',
     'localhost',
     '127.0.0.1',
 ]
