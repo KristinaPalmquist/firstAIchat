@@ -7,6 +7,31 @@
   <div
     class="max-w-xl w-full bg-gray-300 rounded shadow p-6 flex flex-col items-center min-w-[50vw]"
   >
+    {% if answer %}
+    <div class="w-full flex flex-col gap-4">
+      <div class="flex justify-end">
+        <div
+          class="relative max-w-[70%] bg-green-200 text-black rounded-3xl rounded-br-none px-6 py-3 shadow text-left"
+        >
+          <span class="block font-thin text-sm mb-1"
+            >You:</span
+          >
+          <span>{{ question }}</span>
+        </div>
+      </div>
+
+      <div class="flex justify-start">
+        <div
+          class="relative max-w-[70%] bg-yellow-100 border-2 border-yellow-300 text-black rounded-3xl rounded-bl-none px-6 py-3 shadow text-left"
+        >
+          <span class="block font-thin text-sm mb-1"
+            >AI:</span
+          >
+          <span>{{ answer }}</span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
     <h2 class="text-4xl font-thin mb-4 text-center">
       Ask a Question
     </h2>
@@ -36,42 +61,6 @@
         Ask
       </button>
     </form>
-    {% if answer %}
-    <div class="w-full flex flex-col gap-4">
-      <div class="flex justify-end">
-        <div
-          class="relative max-w-[70%] bg-green-200 text-black rounded-3xl rounded-br-none px-6 py-3 shadow text-left"
-        >
-          <span class="block font-thin text-sm mb-1"
-            >You:</span
-          >
-          <span>{{ question }}</span>
-        </div>
-      </div>
-
-      <div class="flex justify-start">
-        <div
-          class="relative max-w-[70%] bg-yellow-100 border-2 border-yellow-300 text-black rounded-3xl rounded-bl-none px-6 py-3 shadow text-left"
-        >
-          <span class="block font-thin text-sm mb-1"
-            >AI:</span
-          >
-          <span>{{ answer }}</span>
-        </div>
-      </div>
-    </div>
-    {% endif %} {% comment %} {% if answer %}
-    <div
-      class="bg-gray-100 border-l-4 border-yellow-300 p-4 rounded w-full text-center"
-    >
-      <h3 class="font-thin mb-2 text-xl">Question:</h3>
-      <p class="pb-3">{{ question }}</p>
-      <h3 class="font-thin mb-2 text-xl">Answer:</h3>
-      <div>
-        <p class="pb-3">{{ answer }}</p>
-      </div>
-    </div>
-    {% endif %} {% endcomment %}
   </div>
 </div>
 {% endblock %}
