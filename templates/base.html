@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Lab01{% endblock %}</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-800 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-yellow-300 text-black p-9">
+      <h1 class="text-8xl text-center font-thin">
+        Lab01 - Chatbot
+      </h1>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto p-4">
+      {% block content %}
+      <!-- Page content goes here -->
+      {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="bg-black text-yellow-300 p-5 text-center font-thin"
+    >
+      &copy; {{ year|default:2025 }} Kristina Palmquist
+    </footer>
+  </body>
+</html>
