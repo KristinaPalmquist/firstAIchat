@@ -12,16 +12,17 @@ def home(request):
             # Configure Gemini API
             api_key = os.getenv('GEMINI_API_KEY')
             if not api_key:
-                raise Exception("GEMINI_API_KEY environment variable not set!")
-            
-            genai.configure(api_key=api_key)
-            
-            # Create the model
-            model = genai.GenerativeModel('gemini-flash-latest')
-            
-            # Generate response
-            response = model.generate_content(question)
-            answer = response.text
+                answer = ("Sorry, the AI is not at home. "
+                          "Please come back later.")
+            else:
+                genai.configure(api_key=api_key)
+                
+                # Create the model
+                model = genai.GenerativeModel('gemini-flash-latest')
+                
+                # Generate response
+                response = model.generate_content(question)
+                answer = response.text
             
             request.session['answer'] = answer
             request.session['question'] = question
@@ -39,3 +40,16 @@ def home(request):
         "answer": answer,
         "question": question
         })
+
+
+def health_check(request):
+    """Simple health check endpoint for Azure diagnostics"""
+    import django
+    status = {
+        'status': 'ok',
+        'django_version': django.get_version(),
+        'secret_key_set': bool(os.getenv('SECRET_KEY')),
+        'gemini_key_set': bool(os.getenv('GEMINI_API_KEY')),
+    }
+    from django.http import JsonResponse
+    return JsonResponse(status)

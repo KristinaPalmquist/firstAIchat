@@ -27,11 +27,19 @@ STATIC_DIR = Path.joinpath(BASE_DIR, 'static')
 load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+# More graceful handling for Azure deployment
 if not SECRET_KEY:
-    raise Exception("SECRET_KEY environment variable not set!")
+    # Use a fallback for initial deployment, but log a warning
+    SECRET_KEY = (
+        'django-insecure-fallback-key-for-deployment-'
+        'please-set-secret-key-env-var'
+    )
+    print("WARNING: Using fallback SECRET_KEY. Please set SECRET_KEY "
+          "environment variable in Azure.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# Allow debug mode if DEBUG environment variable is set
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
 ALLOWED_HOSTS = [
     'my-first-ai-chat-fjgna8f6dyh2gjc2.westeurope-01.azurewebsites.net',
