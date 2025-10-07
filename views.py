@@ -17,7 +17,7 @@ def home(request):
             genai.configure(api_key=api_key)
             
             # Create the model
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            model = genai.GenerativeModel('gemini-flash-latest')
             
             # Generate response
             response = model.generate_content(question)

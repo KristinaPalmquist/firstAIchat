@@ -6,3 +6,4 @@ __pycache__/
 .Python
 *.so
 db.sqlite3
+staticfiles/
