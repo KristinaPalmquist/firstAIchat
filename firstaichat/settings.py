@@ -49,6 +49,16 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
+# CSRF and Security Settings for Azure
+CSRF_TRUSTED_ORIGINS = [
+    'https://my-first-ai-chat-fjgna8f6dyh2gjc2.westeurope-01.azurewebsites.net',  # noqa
+    'https://my-first-ai-chat.azurewebsites.net',
+]
+
+# Session settings
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
