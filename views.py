@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-import ollama
+import google.generativeai as genai
+import os
 
 
 def home(request):
@@ -8,14 +9,20 @@ def home(request):
     if request.method == "POST":
         question = request.POST.get("question")
         try:
-            response = ollama.chat(model='llama3.2', messages=[
-                {
-                    'role': 'user',
-                    'content': question
-                },
-            ])
-            print(response)
-            answer = response.message.content
+            # Configure Gemini API
+            api_key = os.getenv('GEMINI_API_KEY')
+            if not api_key:
+                raise Exception("GEMINI_API_KEY environment variable not set!")
+            
+            genai.configure(api_key=api_key)
+            
+            # Create the model
+            model = genai.GenerativeModel('gemini-1.5-flash')
+            
+            # Generate response
+            response = model.generate_content(question)
+            answer = response.text
+            
             request.session['answer'] = answer
             request.session['question'] = question
             return redirect('home')
