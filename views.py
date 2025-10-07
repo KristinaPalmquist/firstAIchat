@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 import google.generativeai as genai  # type: ignore
 import os
 
 
+@csrf_exempt  # Temporary: Remove this once CSRF is working
 def home(request):
     answer = None
     question = None
@@ -45,11 +48,29 @@ def home(request):
 def health_check(request):
     """Simple health check endpoint for Azure diagnostics"""
     import django
+    from django.conf import settings
+    
+    # Get environment variables with debugging info
+    secret_key = os.getenv('SECRET_KEY')
+    gemini_key = os.getenv('GEMINI_API_KEY')
+    
     status = {
         'status': 'ok',
         'django_version': django.get_version(),
-        'secret_key_set': bool(os.getenv('SECRET_KEY')),
-        'gemini_key_set': bool(os.getenv('GEMINI_API_KEY')),
+        'secret_key_set': bool(secret_key),
+        'secret_key_length': len(secret_key) if secret_key else 0,
+        'secret_key_preview': (secret_key[:10] + '...'
+                               if secret_key else None),
+        'gemini_key_set': bool(gemini_key),
+        'gemini_key_length': len(gemini_key) if gemini_key else 0,
+        'gemini_key_preview': (gemini_key[:15] + '...'
+                               if gemini_key else None),
+        'debug_mode': settings.DEBUG,
+        'allowed_hosts': settings.ALLOWED_HOSTS,
+        'csrf_trusted_origins': getattr(settings, 'CSRF_TRUSTED_ORIGINS', []),
+        'request_scheme': request.scheme,
+        'request_host': request.get_host(),
+        'all_env_vars': list(os.environ.keys()),  # Show all available env vars
     }
     from django.http import JsonResponse
     return JsonResponse(status)

@@ -53,12 +53,23 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     'https://my-first-ai-chat-fjgna8f6dyh2gjc2.westeurope-01.azurewebsites.net',  # noqa
     'https://my-first-ai-chat.azurewebsites.net',
+    'https://*.azurewebsites.net',  # Wildcard for any Azure subdomain
 ]
 
-# Session settings
+# Session settings - be more permissive for Azure
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SAMESITE = 'Lax'  # Less restrictive for Azure
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Azure proxy settings
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
+
+# Additional CSRF settings for Azure
+CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript access if needed
+CSRF_USE_SESSIONS = False  # Store CSRF token in cookie, not session
 
 # Application definition
 
