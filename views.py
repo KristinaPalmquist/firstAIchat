@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-import google.generativeai as genai
+import google.generativeai as genai  # type: ignore
 import os
 
 
